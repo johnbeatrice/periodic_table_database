@@ -25,18 +25,26 @@ echo "$($PSQL "ALTER TABLE elements ALTER COLUMN symbol SET NOT NULL;")"
 echo "$($PSQL "ALTER TABLE elements ALTER COLUMN name SET NOT NULL;")"
 
 # You should set the atomic_number column from the properties table as a foreign key that references the column of the same name in the elements table
+echo "$($PSQL "ALTER TABLE properties ADD FOREIGN KEY (atomic_number) REFERENCES elements(atomic_number);")"
 
 # You should create a types table that will store the three types of elements
-
 # Your types table should have a type_id column that is an integer and the primary key
-
 # Your types table should have a type column that's a VARCHAR and cannot be null. It will store the different types from the type column in the properties table
+echo "$($PSQL "CREATE TABLE types(type_id SERIAL PRIMARY KEY, type VARCHAR(30) NOT NULL);")"
 
 # You should add three rows to your types table whose values are the three different types from the properties table
+echo "$($PSQL "INSERT INTO types(type) VALUES ('metal'),('nonmetal'),('metalloid');")"
 
 # Your properties table should have a type_id foreign key column that references the type_id column from the types table. It should be an INT with the NOT NULL constraint
+echo "$($PSQL "ALTER TABLE properties ADD COLUMN type_id INT;")"
 
 # Each row in your properties table should have a type_id value that links to the correct type from the types table
+echo "$($PSQL "UPDATE properties SET type_id = 1 WHERE type = 'metal';")"
+echo "$($PSQL "UPDATE properties SET type_id = 2 WHERE type = 'nonmetal';")"
+echo "$($PSQL "UPDATE properties SET type_id = 3 WHERE type = 'metalloid';")"
+# Your properties table should have a type_id foreign key column that references the type_id column from the types table. It should be an INT with the NOT NULL constraint
+echo "$($PSQL "ALTER TABLE properties ALTER COLUMN type_id SET NOT NULL;")"
+echo "$($PSQL "ALTER TABLE properties ADD FOREIGN KEY (type_id) REFERENCES types(type_id);")"
 
 # You should capitalize the first letter of all the symbol values in the elements table. Be careful to only capitalize the letter and not change any others
 
