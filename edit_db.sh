@@ -52,10 +52,15 @@ PSQL="psql --username=freecodecamp --dbname=periodic_table -t --no-align -c"
 # You should remove all the trailing zeros after the decimals from each row of the atomic_mass column. You may need to adjust a data type to DECIMAL for this. The final values they should be are in the atomic_mass.txt file
 # echo "$($PSQL "ALTER TABLE properties ALTER COLUMN atomic_mass TYPE NUMERIC(9,6);")"
 # echo "$($PSQL "UPDATE properties SET atomic_mass = (TRIM(TRAILING '0' FROM atomic_mass::TEXT)::NUMERIC);")"
-# echo "$($PSQL "UPDATE properties SET atomic_mass = (select trim(trailing '0' from (atomic_mass::text))::numeric FROM properties WHERE atomic_mass);")"
+# echo "$($PSQL "UPDATE properties SET atomic_mass = (select trim(trailing '0' from (atomic_mass::text))::numeric AS trim, FROM properties;")"
 
-# echo "$($PSQL "ALTER TABLE properties ADD COLUMN trim_atomic_mass TEXT;")"
 
+# echo "$($PSQL "ALTER TABLE properties ADD COLUMN trim_atomic_mass NUMERIC(9,6);")"
+# echo "$($PSQL "INSERT INTO properties(trim_atomic_mass) VALUES (trim(trailing '0' from (atomic_mass::text))::numeric);")"
+# echo "$($PSQL "UPDATE properties SET atomic_mass = trim_atomic_mass;")"
+
+# create table indirection(atomic_number INT, trim_atomic_mass NUMERIC);
+# insert into indirection(atomic_number, trim_atomic_mass) values ()
 
 # You should add the element with atomic number 9 to your database. Its name is Fluorine, symbol is F, mass is 18.998, melting point is -220, boiling point is -188.1, and it's a nonmetal
 
