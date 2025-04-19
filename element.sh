@@ -6,3 +6,4 @@
 # It's a nonmetal, with a mass of 1.008 amu. 
 # Hydrogen has a melting point of -259.1 celsius and a boiling point of -252.9 celsius.""
 
+# echo "git branch -m main" (run this in terminal while on "master" branch to change its name)
