@@ -56,9 +56,9 @@ echo "$($PSQL "ALTER TABLE properties ALTER COLUMN atomic_mass TYPE NUMERIC USIN
 
 # You should add the element with atomic number 9 to your database. Its name is Fluorine, symbol is F, 
 # mass is 18.998, melting point is -220, boiling point is -188.1, and it's a nonmetal
-echo "$($PSQL "INSERT INTO elements(atomic_number, symbol, name) VALUES (9, 'F', 'Flourine');")"
-echo "$($PSQL "INSERT INTO properties(atomic_number, type, atomic_mass, melting_point, boiling_point) VALUES (9, 'nonmetal', 18.998, -220, -188.1);")"
+echo "$($PSQL "INSERT INTO elements(atomic_number, symbol, name) VALUES (9, 'F', 'Fluorine');")"
+echo "$($PSQL "INSERT INTO properties(atomic_number, type, atomic_mass, melting_point_celsius, boiling_point_celsius) VALUES (9, 'nonmetal', 18.998, -220, -188.1);")"
 
 # You should add the element with atomic number 10 to your database. Its name is Neon, symbol is Ne, mass is 20.18, melting point is -248.6, boiling point is -246.1, and it's a nonmetal
 echo "$($PSQL "INSERT INTO elements(atomic_number, symbol, name) VALUES (10, 'Ne', 'Neon');")"
-echo "$($PSQL "INSERT INTO properties(atomic_number, type, atomic_mass, melting_point, boiling_point) VALUES (10, 'nonmetal', 20.18, -248.6, -246.1);")"
+echo "$($PSQL "INSERT INTO properties(atomic_number, type, atomic_mass, melting_point_celsius, boiling_point_celsius) VALUES (10, 'nonmetal', 20.18, -248.6, -246.1);")"
