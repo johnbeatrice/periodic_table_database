@@ -20,7 +20,8 @@ then
 echo "Please provide an element as an argument."
 fi
 
-# if the script is run with an argument
+# *** if the script is run with an argument ***
+# if the argument is an integer
 if [[ $1 =~ ^-?[0-9]+$ ]]
 then
   echo "$1 is an integer!"
@@ -47,6 +48,7 @@ then
   # response to user
   echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} ${user_input_elements[1]}. It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
 
+# if the argument is a 1 or 2 character string
 elif [[ ${#1} > 0 && ${#1} < 3 ]]
 then
   echo "$1 is a symbol!"
@@ -71,41 +73,37 @@ then
   properties="$($PSQL "SELECT * FROM properties WHERE atomic_number = ${user_input_elements[0]};")"
   # get element type
   type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
-  
+
+  # response to user
+  echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} ${user_input_elements[1]}. It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
+
+# if the argument is a string longer than 2 characters
 elif [[ ${#1} > 2 ]]
 then
   echo "$1 is a name!"
-  echo ${#1}
-# else
-#   echo "invalid argument :("
+
+  #  get element info from elements table
+  element="$($PSQL "SELECT * FROM elements WHERE name = $1;")"
+
+  # if element does not exist in db, exit script
+  if [[ -z $element ]]
+  then
+  echo "I could not find that element in the database."
+  exit
+  fi
+
+  # input element and properties values into arrays
+  IFS='|'
+  read -ra user_input_elements <<< $element 
+  read -ra user_input_properties <<< $properties 
+  unset IFS
+
+  # get info from properties table
+  properties="$($PSQL "SELECT * FROM properties WHERE atomic_number = ${user_input_elements[0]};")"
+  # get element type
+  type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
+
+  # response to user
+  echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} ${user_input_elements[1]}. It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
+  
 fi
-
-element="$($PSQL "SELECT * FROM elements WHERE atomic_number = $1;")"
-properties="$($PSQL "SELECT * FROM properties WHERE atomic_number = $1;")"
-
-if [[ -z $element ]]
-then
-echo "that atomic number is not in our db"
-fi
-
-IFS='|'
-read -ra user_input_elements <<< $element 
-read -ra user_input_properties <<< $properties 
-unset IFS
-
-type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
-
-echo ${user_input_elements[@]}
-echo ${user_input_properties[@]}
-echo $type
-
-
-
-# how to get script to take user arguments (./element.sh H)
-# element="$($PSQL "SELECT * FROM elements WHERE column = $user_input")"
-# properties="$($PSQL "ELECT * FROM properties WHERE column = $user_input")"
-
-# need if statements to check if user input is integer, 1 or 2 letters (symbol) or more than 2 letters (name)
-# if [ $1 ]
-# then use the appropriate sql queries (searching by user input, there will be 3 options)
-# then return the appropriate response with requested details
