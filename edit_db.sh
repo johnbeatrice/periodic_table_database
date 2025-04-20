@@ -66,3 +66,6 @@ echo "$($PSQL "INSERT INTO properties(atomic_number, type, atomic_mass, melting_
 # You should delete the non existent element, whose atomic_number is 1000, from the two tables
 echo "$($PSQL "DELETE FROM properties WHERE atomic_number = 1000;")"
 echo "$($PSQL "DELETE FROM elements WHERE atomic_number = 1000;")"
+
+# Your properties table should NOT have a type column
+echo "$($PSQL "ALTER TABLE properties DROP COLUMN type;")"
