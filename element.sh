@@ -7,3 +7,5 @@
 # Hydrogen has a melting point of -259.1 celsius and a boiling point of -252.9 celsius.""
 
 # echo "git branch -m main" (run this in terminal while on "master" branch to change its name)
+
+echo "Please provide an element as an argument."
