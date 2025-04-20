@@ -7,6 +7,13 @@
 
 # echo "git branch -m main" (run this in terminal while on "master" branch to change its name)
 
+# # connect to periodic_table database
+PSQL="psql --username=freecodecamp --dbname=periodic_table -t --no-align -c"
+
+# arrays
+declare -a user_input_elements
+declare -a user_input_properties
+
 # if the script is run without an argument
 if [[ -z $1 ]]
 then
@@ -17,6 +24,8 @@ fi
 if [[ $1 =~ ^-?[0-9]+$ ]]
 then
   echo "$1 is an integer!"
+
+
 elif [[ ${#1} > 0 && ${#1} < 3 ]]
 then
   echo "$1 is a symbol!"
@@ -29,7 +38,22 @@ then
 #   echo "invalid argument :("
 fi
 
-# element="$($PSQL "SELECT * FROM elements WHERE column = $user_input")"
+element="$($PSQL "SELECT * FROM elements WHERE atomic_number = $1")"
+properties="$($PSQL "SELECT * FROM properties WHERE atomic_number = $1")"
+
+IFS='|'
+read -ra user_input_elements <<< $element 
+read -ra user_input_properties <<< $properties 
+unset IFS
+
+type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
+
+echo ${user_input_elements[@]}
+echo ${user_input_properties[@]}
+echo $type
+
+
+
 
 # how to get script to take user arguments (./element.sh H)
 # element="$($PSQL "SELECT * FROM elements WHERE column = $user_input")"
