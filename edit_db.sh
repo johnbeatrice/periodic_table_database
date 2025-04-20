@@ -62,3 +62,7 @@ echo "$($PSQL "INSERT INTO properties(atomic_number, type, atomic_mass, melting_
 # You should add the element with atomic number 10 to your database. Its name is Neon, symbol is Ne, mass is 20.18, melting point is -248.6, boiling point is -246.1, and it's a nonmetal
 echo "$($PSQL "INSERT INTO elements(atomic_number, symbol, name) VALUES (10, 'Ne', 'Neon');")"
 echo "$($PSQL "INSERT INTO properties(atomic_number, type, atomic_mass, melting_point_celsius, boiling_point_celsius, type_id) VALUES (10, 'nonmetal', 20.18, -248.6, -246.1, 2);")"
+
+# You should delete the non existent element, whose atomic_number is 1000, from the two tables
+echo "$($PSQL "DELETE FROM properties WHERE atomic_number = 1000;")"
+echo "$($PSQL "DELETE FROM elements WHERE atomic_number = 1000;")"
