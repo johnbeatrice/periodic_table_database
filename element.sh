@@ -54,7 +54,9 @@ then
   echo "$1 is a symbol!"
 
   #  get element info from elements table
-  element="$($PSQL "SELECT * FROM elements WHERE symbol = $1;")"
+  element="$($PSQL "SELECT * FROM elements WHERE symbol = '$1';")"
+
+  echo $element
 
   # if element does not exist in db, exit script
   if [[ -z $element ]]
@@ -63,14 +65,18 @@ then
   exit
   fi
 
-  # input element and properties values into arrays
+  # input element values into array
   IFS='|'
   read -ra user_input_elements <<< $element 
-  read -ra user_input_properties <<< $properties 
   unset IFS
 
   # get info from properties table
   properties="$($PSQL "SELECT * FROM properties WHERE atomic_number = ${user_input_elements[0]};")"
+  # input properties values into array
+  IFS='|'
+  read -ra user_input_properties <<< $properties 
+  unset IFS
+
   # get element type
   type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
 
@@ -83,7 +89,7 @@ then
   echo "$1 is a name!"
 
   #  get element info from elements table
-  element="$($PSQL "SELECT * FROM elements WHERE name = $1;")"
+  element="$($PSQL "SELECT * FROM elements WHERE name = '$1';")"
 
   # if element does not exist in db, exit script
   if [[ -z $element ]]
@@ -95,11 +101,14 @@ then
   # input element and properties values into arrays
   IFS='|'
   read -ra user_input_elements <<< $element 
-  read -ra user_input_properties <<< $properties 
   unset IFS
-
+  
   # get info from properties table
   properties="$($PSQL "SELECT * FROM properties WHERE atomic_number = ${user_input_elements[0]};")"
+  # input properties values into array
+  IFS='|'
+  read -ra user_input_properties <<< $properties 
+  unset IFS
   # get element type
   type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
 
