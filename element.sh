@@ -7,8 +7,13 @@
 
 # echo "git branch -m main" (run this in terminal while on "master" branch to change its name)
 
+# if the script is run without an argument
+if [[ -z $1 ]]
+then
 echo "Please provide an element as an argument."
+fi
 
+# if the script is run with an argument
 if [[ $1 =~ ^-?[0-9]+$ ]]
 then
   echo "$1 is an integer!"
@@ -20,10 +25,11 @@ elif [[ ${#1} > 2 ]]
 then
   echo "$1 is a name!"
   echo ${#1}
-else
-  echo "invalid argument :("
+# else
+#   echo "invalid argument :("
 fi
 
+# element="$($PSQL "SELECT * FROM elements WHERE column = $user_input")"
 
 # how to get script to take user arguments (./element.sh H)
 # element="$($PSQL "SELECT * FROM elements WHERE column = $user_input")"
