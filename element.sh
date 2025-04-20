@@ -24,7 +24,7 @@ fi
 # if the argument is an integer
 if [[ $1 =~ ^-?[0-9]+$ ]]
 then
-  echo "$1 is an integer!"
+  # echo "$1 is an integer!"
   #  get element info from elements and properties info
   element="$($PSQL "SELECT * FROM elements WHERE atomic_number = $1;")"
   properties="$($PSQL "SELECT * FROM properties WHERE atomic_number = $1;")"
@@ -46,17 +46,15 @@ then
   type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
 
   # response to user
-  echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} ${user_input_elements[1]}. It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
+  echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} (${user_input_elements[1]}). It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
 
 # if the argument is a 1 or 2 character string
 elif [[ ${#1} > 0 && ${#1} < 3 ]]
 then
-  echo "$1 is a symbol!"
+  # echo "$1 is a symbol!"
 
   #  get element info from elements table
   element="$($PSQL "SELECT * FROM elements WHERE symbol = '$1';")"
-
-  echo $element
 
   # if element does not exist in db, exit script
   if [[ -z $element ]]
@@ -81,12 +79,12 @@ then
   type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
 
   # response to user
-  echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} ${user_input_elements[1]}. It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
+  echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} (${user_input_elements[1]}). It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
 
 # if the argument is a string longer than 2 characters
 elif [[ ${#1} > 2 ]]
 then
-  echo "$1 is a name!"
+  # echo "$1 is a name!"
 
   #  get element info from elements table
   element="$($PSQL "SELECT * FROM elements WHERE name = '$1';")"
@@ -113,6 +111,6 @@ then
   type="$($PSQL "SELECT type FROM types WHERE type_id = ${user_input_properties[4]};")"
 
   # response to user
-  echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} ${user_input_elements[1]}. It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
+  echo "The element with atomic number ${user_input_elements[0]} is ${user_input_elements[2]} (${user_input_elements[1]}). It's a $type, with a mass of ${user_input_properties[1]} amu. ${user_input_elements[2]} has a melting point of ${user_input_properties[2]} celsius and a boiling point of ${user_input_properties[3]} celsius."
   
 fi
